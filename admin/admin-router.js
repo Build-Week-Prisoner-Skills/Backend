@@ -39,6 +39,24 @@ router.post('/login', (req, res) => {
     });
 });
 
+router.put('/', authToken, (req, res) => {
+	let {username, password} = req.body;
+	const hash = bcrypt.hashSync(password, 10);
+    password = hash;
+    
+	if (!username || !password) {
+		return res.status(400).json({ error: 'Please provide username and password for the account.' });
+	}
+    Admins.edit(req.admin.userId,({username, password}))
+		.then(updated => {
+            res.status(201).json(updated)
+        })
+        .catch(err => {
+            res.status(500).json({ error: 'The user informatmion could not be retrieved.' });
+        });
+
+})
+
 router.get('/', (req, res) => {
     Admins.find()
     .then(admins => {
@@ -52,9 +70,10 @@ router.get('/facilities', authToken, (req, res) => {
     if (req.admin.prison_id === null){
         res.status(404).json({ message: 'No facility associated with account.' })
     } else{
-        Prisons.findBy(req.admin.prison_id)
+        console.log(req.admin.prison_id)
+        Prisons.findById(req.admin.prison_id)
         .then(prison => {
-            if (prison.length > 0) {
+            if (prison) {
                 res.status(200).json(prison);
             } else {
                 res.status(404).json({ message: 'No facility found with that ID.'})

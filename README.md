@@ -41,15 +41,15 @@ Signs user in and returns a JSON web token
     message: "Welcome to Spotify Song Suggester {username of user}!"
 # 
 ## Updates Profile
-## PUT api/auth/:id
+## PUT api/admin
 User can update profile infomation. 
 
-Must be logged in to update profile and 
+Must be logged in to update profile
 
 # 
 | Method | Endpoint      |
 | - | - |
-| PUT   | /api/auth/:id | 
+| PUT   | /api/admin | 
     Input: 
 	username: "user",
 	password: "user"
@@ -57,7 +57,63 @@ Must be logged in to update profile and
     Output: 
     username: "updated username",
 	password: "updated password"
-    
+
+# 
+## Add facility
+## POST api/admin/facilities
+Administrator can add facility infomation. 
+
+Must be logged in to add profile
+
+# 
+| Method | Endpoint      |
+| - | - |
+| PUT   | /api/admin/facilities | 
+    Input: 
+    "name": "Parnall Correctional Facility", (string, Required)
+    "address": "1780 East Parnall Road", (string, Required)
+    "city": "Jackson", (string, Required)
+    "state": "MI", (string, Required, 2 character Max)
+    "postal_code": "49201" (string, Required 5 character Max)
+ 
+        
+    Output: 
+    id: 4
+    "name": "Parnall Correctional Facility"
+    "address": "1780 East Parnall Road",
+    "city": "Jackson", (string, Required)
+    "state": "MI",
+    "postal_code": "49201"
+      
+ # 
+## Gets all inmates at administrators facilities
+## GET api/admin/inmates
+Administrator can view all inmates at their facility
+
+Must be logged in
+# 
+
+| Method | Endpoint      |
+| - | - |
+| GET   | /api/facilities |
+
+
+    Logged In As:
+{
+	username: "snorton",
+	password: "password"
+}
+
+    Output:
+
+{
+  "id": 1,
+  "name": "Shawshank State Prison",
+  "address": "100 Reformatory Road",
+  "city": "Mansfield",
+  "state": "ME",
+  "postal_code": 2305
+}
 
 # 
 ## Add inmate
@@ -152,7 +208,7 @@ Must be logged in
 ]
 
 # 
-## Gets inmate at administrators facility by ID
+## Gets inmate by ID
 ## GET api/admin/inmates/:id
 Administrator can view specific inmate at their facility,
 not authorized to view other facilities' inmates on admin page 
@@ -201,7 +257,7 @@ Must be logged in
 }
 
 # 
-## Updates inmate at administrators facility by ID
+## Updates inmate by ID
 ## PUT api/admin/inmates/:id
 Administrator can edit specific inmate at their facility,
 not authorized to edit other facilities' inmates
