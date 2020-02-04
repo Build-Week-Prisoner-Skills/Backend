@@ -9,6 +9,10 @@ const prisonerRouter = require('../prisoners/prisoner-router');
 
 middleware(server);
 
+server.get('/', (req, res) => {
+    res.send('<h1> You have successfully connected to the Inmate-Skills API.')
+})
+
 server.use('/api/admin', adminRouter);
 server.use('/api/facilities', prisonRouter);
 server.use('/api/inmates', prisonerRouter);
