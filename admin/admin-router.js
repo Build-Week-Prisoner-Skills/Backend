@@ -5,6 +5,8 @@ const Admins = require('./admin-model');
 const Prisoners = require('../prisoners/prisoner-model');
 const Prisons = require('../prisons/prison-model');
 
+//** ADMIN ROUTES **//
+
 router.post('/register', (req, res) => {
     let admin = req.body
     const hash = bcrypt.hashSync(admin.password, 10);
@@ -33,7 +35,7 @@ router.post('/login', (req, res) => {
             id: admin.id,
             username,
             token,
-            message  : `Registration successful, ${admin.name}.`,
+            message  : `Login successful, ${admin.name}.`,
         })
     } else {
         res.status(401).json({ message: 'Invalid credentials' })
@@ -66,11 +68,29 @@ router.put('/', authToken, (req, res) => {
 })
 
 router.get('/', (req, res) => {
+
     Admins.find()
     .then(admins => {
-        res.json(admins)
+        res.status(200).json(admins)
     })
-})
+    .catch(err => res.status(500).json({ errorMessage: 'Could not retrieve administrators.'}))
+});
+
+router.delete('/', authToken, (req, res) => {
+
+    Admins.remove(req.admin.userId)
+    .then(admin => {
+        if(!admin){
+            res.status(200).json({ message: 'Account successfully deleted'});
+        } else {
+            res.status(500).json({ errorMessage: 'Could not remove account.'})
+        }
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({ errorMessage: 'Server error.' })
+    });
+});
 
 //**  PRISON ROUTES  **//
 
@@ -78,10 +98,7 @@ router.get('/facilities', authToken, (req, res) => {
 
     if (req.admin.prison_id === null){
         res.status(404).json({ message: 'No facility associated with account.' })
-    } else{
-    
-        console.log(req.admin.prison_id)
-    
+    } else{    
         Prisons.findById(req.admin.prison_id)
         .then(prison => {
             if (prison) {
@@ -91,32 +108,35 @@ router.get('/facilities', authToken, (req, res) => {
             }
         })
         .catch(err => res.status(500).json(err));
-    }
+    };
 });
 
 router.post('/facilities', authToken, (req, res) => {
-        let prison = req.body
-        
+
+    let prison = req.body
+    if(req.admin.prison_id === null) {
         Admins.addPrison(prison)
-            .then(prison => {
-                let changes = ({prison_id : prison.id})
-                Admins.edit(req.admin.userId, changes).then(admin=>{
-                    const token = signToken(admin);
-                    res.status(201).json({
-                        prison,
-                        token,
-                        message  : `Facility added successfully, ${admin.name}.`,
-                    });
-                })
+        .then(prison => {
+            let changes = ({prison_id : prison.id})
+            Admins.edit(req.admin.userId, changes).then(admin=>{
+                const token = signToken(admin);
+                res.status(201).json({
+                    prison,
+                    token,
+                    message  : `Facility added successfully, ${admin.name}.`,
+                });
             })
-            .catch(err =>
-        res.status(500).json({ errorMessage: 'Could not add facility.'}))
+        })
+        .catch(err =>
+    res.status(500).json({ errorMessage: 'Could not add facility.'}))  
+    } else {
+        res.status(401).json({ errorMessage: 'Account is already linked to another facility.'})
+    };
 });
 
 //**  PRISONER ROUTES  **//
 
 router.post('/inmates', authToken, (req, res) => {
-
 
     if (req.admin.prison_id !== null ) {
         let prisoner = req.body
@@ -138,8 +158,8 @@ router.get('/inmates', authToken, (req, res) => {
 
     if (req.admin.prison_id === null){
         res.status(404).json({ message: 'No facility associated with account.' })
-    } else{
-    
+    } else {
+
         Prisoners.findByPrisonId(req.admin.prison_id)
         .then(prisoners => {
             if (prisoners.length > 0) {
@@ -149,7 +169,7 @@ router.get('/inmates', authToken, (req, res) => {
             }
         })
         .catch(err => res.status(500).json(err));
-    }
+    };
 });
 
 router.get('/inmates/:id', authToken, (req, res) => {
@@ -204,7 +224,6 @@ router.delete('/inmates/:id', authToken, (req, res, end) => {
                 })
             }
         })
-    
         .catch(err => res.status(500).json({ errorMessage: 'Error handling delete.'}));
 });
 

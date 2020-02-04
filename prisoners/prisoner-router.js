@@ -28,17 +28,4 @@ router.get('/:id', (req, res) => {
     });
 });
 
-
-router.post('/', (req, res) => {
-    let prisoner = req.body
-    Prisoners.insert(prisoner)
-    .then(prisoner => {
-        res.status(201).json(prisoner)
-    })
-    .catch(err => {
-        console.log(err);
-        res.status(500).json({ message: "Could not add inmate."})
-    });
-});
-
 module.exports = router;
