@@ -91,6 +91,7 @@ router.post('/facilities', authToken, (req, res) => {
                 let changes = ({prison_id : prison.id})
                 Admins.edit(req.admin.userId, changes)
                 res.status(201).json(prison);
+                alert('You must log in again to continue.')
             })
             .catch(err =>
         res.status(500).json({ errorMessage: 'Could not add facility.'}))
