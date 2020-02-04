@@ -19,7 +19,7 @@ Creates a new account for an administrator
     Output:
     id: 1,
     name: "Warden Norton",
-    username: "snoton",
+    username: "snorton",
     password: "hashed password"
 # 
 ## Administrator Login
@@ -38,7 +38,33 @@ Signs user in and returns a JSON web token
     id: "id of admin",
     username: "username of user",
     token: "JSON webtoken returned"
-    message: "Welcome to Spotify Song Suggester {username of user}!"
+
+# USERNAMES && PASSWORDS FOR TESTING
+
+{
+      id: 1, 
+      name: 'Warden Norton',
+      username: `snorton`,
+      password: `password`,
+      prison_id: 1
+    },
+    {
+      id: 2, 
+      name: 'the Captain',
+      username: `smartin`,
+      password: `password`,
+      prison_id: 2
+    },
+    {
+      id: 3, 
+      name: 'Hal Moores',
+      username: `hmoores`,
+      password: `password`,
+      prison_id: 3
+    }
+
+
+
 # 
 ## Updates Profile
 ## PUT api/admin
