@@ -25,8 +25,8 @@ Creates a new account for an administrator
     password: hashed password,
     name: "Warden Norton",
     prison_id: null
-    
-    
+
+# 
 ## Administrator Login
 ## POST api/admin/login
 Signs user in and returns a JSON web token
@@ -45,7 +45,7 @@ Signs user in and returns a JSON web token
 
     id: 1,
     username": "snorton",
-    token: "token",
+    token: "{token}",
     message: "Registration successful, Warden Norton."
 
 
@@ -72,6 +72,7 @@ Signs user in and returns a JSON web token
       password: `password`,
       prison_id: 3
     }
+
 
 
 # 
@@ -127,8 +128,8 @@ Must be logged in to add profile
     state: "MI",
     postal_code: "49201"
     },
-    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoiYnJ1c3NlbHMiLCJwcmlzb25faWQiOjcsImlhdCI6MTU4MDgzNDYyNSwiZXhwIjoxNTgwOTIxMDI1fQ.aBmWCtw31ys0eAdNJQa4JlGhKIcnT4oKvzlVo8MiQOM",
-  message: "Facility added successfully, ${admin.name}."
+    token: "{token}",
+  message: "Facility added successfully, {admin.name}."
   }
       
  # 
@@ -519,4 +520,3 @@ No input needed.
     prison_id: 1,
     facility: "Shawshank State Prison",
     postal_code: "04401"
-
