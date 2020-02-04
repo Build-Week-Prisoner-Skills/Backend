@@ -121,15 +121,19 @@ Must be logged in to add profile
 
   {
     prison: {
-    id: 4
+
+    id: 4,
     name: "Parnall Correctional Facility"
     address: "1780 East Parnall Road",
-    city: "Jackson", (string, Required)
+    city: "Jackson",
     state: "MI",
     postal_code: "49201"
+
     },
+    
     token: "{token}",
-  message: "Facility added successfully, {admin.name}."
+
+    message: "Facility added successfully, {admin.name}."
   }
       
  # 
