@@ -2,7 +2,7 @@ const db = require('../database/db-config');
 
 module.exports = {
     find,
-    findBy,
+    findByPrisonId,
     findById
 };
 
@@ -12,9 +12,9 @@ function find() {
     .join('prisons', 'prisons.id', '=', 'prisoners.prison_id');
 };
 
-function findBy(prop) {
+function findByPrisonId(prison_id) {
     return db('prisoners')
-        .where(prop);
+        .where('prisoners.prison_id', prison_id);
 };
 
 function findById(id) {
