@@ -25,8 +25,8 @@ Creates a new account for an administrator
     password: hashed password,
     name: "Warden Norton",
     prison_id: null
-
-# 
+    
+    
 ## Administrator Login
 ## POST api/admin/login
 Signs user in and returns a JSON web token
@@ -72,7 +72,6 @@ Signs user in and returns a JSON web token
       password: `password`,
       prison_id: 3
     }
-
 
 
 # 
@@ -520,3 +519,4 @@ No input needed.
     prison_id: 1,
     facility: "Shawshank State Prison",
     postal_code: "04401"
+
