@@ -102,7 +102,7 @@ Must be logged in to update profile
 Administrator can add facility infomation. 
 
 Must be logged in to add profile
-# UPON CREATION ADMIN MUST LOG IN AGAIN TO GET A VALID TOKEN, AS AUTHORIZATION WILL BREAK
+# UPON CREATION ADMIN WILL RECEIVE AN UPDATED TOKEN
 # 
 | Method | Endpoint      |
 | - | - |
@@ -117,7 +117,7 @@ Must be logged in to add profile
     postal_code: "49201" (string, Required 5 character Max)
         
     Output: 
-    
+
   {
     prison: {
     id: 4
@@ -126,8 +126,9 @@ Must be logged in to add profile
     city: "Jackson", (string, Required)
     state: "MI",
     postal_code: "49201"
-    }
-    message: "You must log in again to continue."
+    },
+    token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjYsInVzZXJuYW1lIjoiYnJ1c3NlbHMiLCJwcmlzb25faWQiOjcsImlhdCI6MTU4MDgzNDYyNSwiZXhwIjoxNTgwOTIxMDI1fQ.aBmWCtw31ys0eAdNJQa4JlGhKIcnT4oKvzlVo8MiQOM",
+  message: "Facility added successfully, ${admin.name}."
   }
       
  # 

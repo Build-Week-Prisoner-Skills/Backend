@@ -12,6 +12,7 @@ router.post('/register', (req, res) => {
 
     Admins.add(admin)
     .then(saved => {
+        console.log(saved)
     res.status(201).json(saved);
     })
     .catch(err => {
@@ -52,10 +53,12 @@ router.put('/', authToken, (req, res) => {
 	if (!username || !password) {
 		return res.status(400).json({ error: 'Please provide username and password for the account.' });
 	}
+
     Admins.edit(req.admin.userId,({username, password}))
 		.then(updated => {
             res.status(201).json(updated)
         })
+    
         .catch(err => {
             res.status(500).json({ error: 'The user informatmion could not be retrieved.' });
         });
@@ -72,10 +75,13 @@ router.get('/', (req, res) => {
 //**  PRISON ROUTES  **//
 
 router.get('/facilities', authToken, (req, res) => {
+
     if (req.admin.prison_id === null){
         res.status(404).json({ message: 'No facility associated with account.' })
     } else{
+    
         console.log(req.admin.prison_id)
+    
         Prisons.findById(req.admin.prison_id)
         .then(prison => {
             if (prison) {
@@ -94,11 +100,14 @@ router.post('/facilities', authToken, (req, res) => {
         Admins.addPrison(prison)
             .then(prison => {
                 let changes = ({prison_id : prison.id})
-                Admins.edit(req.admin.userId, changes)
-                res.status(201).json({
-                    prison,
-                    message: 'You must log in again to continue.'
-                });
+                Admins.edit(req.admin.userId, changes).then(admin=>{
+                    const token = signToken(admin);
+                    res.status(201).json({
+                        prison,
+                        token,
+                        message  : `Facility added successfully, ${admin.name}.`,
+                    });
+                })
             })
             .catch(err =>
         res.status(500).json({ errorMessage: 'Could not add facility.'}))
@@ -107,6 +116,7 @@ router.post('/facilities', authToken, (req, res) => {
 //**  PRISONER ROUTES  **//
 
 router.post('/inmates', authToken, (req, res) => {
+
 
     if (req.admin.prison_id !== null ) {
         let prisoner = req.body
@@ -125,9 +135,11 @@ router.post('/inmates', authToken, (req, res) => {
 });
 
 router.get('/inmates', authToken, (req, res) => {
+
     if (req.admin.prison_id === null){
         res.status(404).json({ message: 'No facility associated with account.' })
     } else{
+    
         Prisoners.findByPrisonId(req.admin.prison_id)
         .then(prisoners => {
             if (prisoners.length > 0) {
@@ -167,7 +179,7 @@ router.put('/inmates/:id', authToken, (req, res, end) => {
                     console.log(edited)
                     res.status(200).json(edited)
                 })
-                .catch(err => {
+                    .catch(err => {
                     res.status(500).json({ errorMessage: 'Error updating information.'})
                 })
             }
@@ -192,6 +204,7 @@ router.delete('/inmates/:id', authToken, (req, res, end) => {
                 })
             }
         })
+    
         .catch(err => res.status(500).json({ errorMessage: 'Error handling delete.'}));
 });
 
