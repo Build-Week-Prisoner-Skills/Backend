@@ -7,20 +7,25 @@
 ## POST api/admin/register
 Creates a new account for an administrator
 # 
-
+# IF CREATING ACCOUNT NO FACILITY WILL BE LINKED
 | Method | Endpoint      |
 | - | - |
 | POST   | /api/admin/register | 
+
     Input:
+
     name : "Warden Norton", (string required, unique) 
-	username: "snorton", (string required, unique)
-	password: "password" (string required) 
+	  username: "snorton", (string required, unique)
+	  password: "password" (string required) 
 
     Output:
+
     id: 1,
-    name: "Warden Norton",
     username: "snorton",
-    password: "hashed password"
+    password: hashed password,
+    name: "Warden Norton",
+    prison_id: null
+
 # 
 ## Administrator Login
 ## POST api/admin/login
@@ -30,14 +35,19 @@ Signs user in and returns a JSON web token
 | Method | Endpoint      |
 | - | - |
 | POST   | /api/admin/login | 
+
     Input: 
-	username: "snorton", (string required, unique)
-	password: "password" (string required) 
+
+    username: "snorton", (string required, unique)
+    password: "password" (string required) 
     
     Output:
-    id: "id of admin",
-    username: "username of user",
-    token: "JSON webtoken returned"
+
+    id: 1,
+    username": "snorton",
+    token: "token",
+    message: "Registration successful, Warden Norton."
+
 
 # USERNAMES && PASSWORDS FOR TESTING
 
@@ -76,13 +86,16 @@ Must be logged in to update profile
 | Method | Endpoint      |
 | - | - |
 | PUT   | /api/admin | 
+
     Input: 
-	username: "user",
-	password: "user"
+
+	  username: "user",
+	  password: "user"
     
     Output: 
+
     username: "updated username",
-	password: "updated password"
+	  password: "updated password"
 
 # 
 ## Add facility
@@ -90,26 +103,33 @@ Must be logged in to update profile
 Administrator can add facility infomation. 
 
 Must be logged in to add profile
-
+# UPON CREATION ADMIN MUST LOG IN AGAIN TO GET A VALID TOKEN, AS AUTHORIZATION WILL BREAK
 # 
 | Method | Endpoint      |
 | - | - |
 | PUT   | /api/admin/facilities | 
+
     Input: 
-    "name": "Parnall Correctional Facility", (string, Required)
-    "address": "1780 East Parnall Road", (string, Required)
-    "city": "Jackson", (string, Required)
-    "state": "MI", (string, Required, 2 character Max)
-    "postal_code": "49201" (string, Required 5 character Max)
- 
+
+    name: "Parnall Correctional Facility", (string, Required)
+    address: "1780 East Parnall Road", (string, Required)
+    city: "Jackson", (string, Required)
+    state: "MI", (string, Required, 2 character Max)
+    postal_code: "49201" (string, Required 5 character Max)
         
     Output: 
+    
+  {
+    prison: {
     id: 4
-    "name": "Parnall Correctional Facility"
-    "address": "1780 East Parnall Road",
-    "city": "Jackson", (string, Required)
-    "state": "MI",
-    "postal_code": "49201"
+    name: "Parnall Correctional Facility"
+    address: "1780 East Parnall Road",
+    city: "Jackson", (string, Required)
+    state: "MI",
+    postal_code: "49201"
+    }
+    message: "You must log in again to continue."
+  }
       
  # 
 ## Gets all inmates at administrators facilities
@@ -123,23 +143,19 @@ Must be logged in
 | - | - |
 | GET   | /api/facilities |
 
-
     Logged In As:
-{
-	username: "snorton",
-	password: "password"
-}
+
+	  username: "snorton",
+	  password: "password"
 
     Output:
 
-{
-  "id": 1,
-  "name": "Shawshank State Prison",
-  "address": "100 Reformatory Road",
-  "city": "Mansfield",
-  "state": "ME",
-  "postal_code": 2305
-}
+    id: 1,
+    name: "Shawshank State Prison",
+    address: "100 Reformatory Road",
+    city: "Mansfield",
+    state: "ME",
+    postal_code: 2305
 
 # 
 ## Add inmate
@@ -152,13 +168,16 @@ Must be logged in to add profile and
 | Method | Endpoint      |
 | - | - |
 | PUT   | /api/admin/inmates | 
+
     Input: 
+
     name: "Cody Russell", (string, Required)
     work_exp: "Prototyping", (string, Required)
     skills: "Art, Dev", (string, Required)
     availability: "On Site", (string, Required)
         
-    Output: 
+    Output:
+
     id: 7
     name: "Cody Russell",
     work_exp: "Prototyping",
@@ -177,14 +196,16 @@ Must be logged in to add profile and
 | Method | Endpoint      |
 | - | - |
 | PUT   | /api/admin/inmates | 
+
     Input: 
+
     name: "Cody Russell", (string, Required)
     work_exp: "Prototyping", (string, Required)
     skills: "Art, Dev", (string, Required)
     availability: "On Site", (string, Required)
         
     Output:
-    { 
+
     id: 7,
     name: "Cody Russell",
     work_exp: "Prototyping",
@@ -192,7 +213,7 @@ Must be logged in to add profile and
     availability: "On Site",
     facility: "Shawshank State Prison",
     prison_id: 1 || (admin.prison_id)
-    }
+    
 
 # 
 ## Gets all inmates at administrators facilities
@@ -208,30 +229,30 @@ Must be logged in
 
 
     Logged In As:
-{
-	username: "snorton",
-	password: "password"
-}
+
+	  username: "snorton",
+	  password: "password"
+
     
     Output:
-[
-  {
-    id: 1,
-    name: "Andy Dufresne",
-    work_exp: "Accounting",
-    skills: "Math, Planning",
-    availability: "Day pass",
-    prison_id: 1
-  },
-  {
-    id: 4,
-    name: "Ellis Boyd Redding",
-    work_exp: "Sales",
-    skills: "Ordering, Networking",
-    availability: "Day pass",
-    prison_id: 1
-  }
-]
+    [
+      {
+        id: 1,
+        name: "Andy Dufresne",
+        work_exp: "Accounting",
+        skills: "Math, Planning",
+        availability: "Day pass",
+        prison_id: 1
+      },
+      {
+        id: 4,
+        name: "Ellis Boyd Redding",
+        work_exp: "Sales",
+        skills: "Ordering, Networking",
+        availability: "Day pass",
+        prison_id: 1
+      }
+    ]
 
 # 
 ## Gets inmate by ID
@@ -246,41 +267,38 @@ Must be logged in
 | - | - |
 | GET   | /api/facilities/inmates/1 |
 
-
     Logged In As:
-{
-	username: "snorton",
-	password: "password"
-}
-    
+
+    username: "snorton",
+    password: "password"
+
     Output:
-[
-  {
-    id: 1,
-    name: "Andy Dufresne",
-    work_exp: "Accounting",
-    skills: "Math, Planning",
-    availability: "Day pass",
-    facility: "Shawshank State Prison",
-    prison_id: 1
-  }
-]
+
+    [
+      {
+        id: 1,
+        name: "Andy Dufresne",
+        work_exp: "Accounting",
+        skills: "Math, Planning",
+        availability: "Day pass",
+        facility: "Shawshank State Prison",
+        prison_id: 1
+      }
+    ]
 
 | Method | Endpoint      |
 | - | - |
 | GET   | /api/facilities/inmates/2 |
 
     Logged In As:
-{
-	username: "snorton",
-	password: "password"
-}
+
+  	username: "snorton",
+	  password: "password"
     
     Output:
 
-{
     message: "Not authorized."
-}
+
 
 # 
 ## Updates inmate by ID
@@ -295,13 +313,13 @@ Must be logged in, input changes
 | - | - |
 | PUT   | /api/facilities/inmates/1 |
 
-
     Logged In As:
 
-	username: "snorton",
-	password: "password"
+    username: "snorton",
+    password: "password"
 
-  Input: 
+    Input: 
+
     name: "Andy Dufresne",
     work_exp: "Accounting, Geology",
     skills: "Math, Planning, Digging",
@@ -310,7 +328,7 @@ Must be logged in, input changes
 
     
     Output:
-{
+
     id: 1,
     name: "Andy Dufresne",
     work_exp: "Accounting, Geology",
@@ -318,7 +336,7 @@ Must be logged in, input changes
     availability: "Day pass",
     facility: "Shawshank State Prison",
     prison_id: 1
-}
+
 
 # 
 ## Removes inmate at administrators facility by ID
@@ -336,15 +354,13 @@ Must be logged in
 
     Logged In As:
 
-	username: "snorton",
-	password: "password"
+	  username: "snorton",
+	  password: "password"
     
     Output:
-{
    
     message: "Inmate information deleted."
 
-}
 
 ### Public Routes   
 
@@ -361,32 +377,33 @@ No input needed.
 | GET   | /api/facilities |
     
     Output:
-  [
-  {
-    "id": 1,
-    "name": "Shawshank State Prison",
-    "address": "100 Reformatory Road",
-    "city": "Mansfield",
-    "state": "ME",
-    "postal_code": "04401"
-  },
-  {
-    "id": 2,
-    "name": "Road Prison 36",
-    "address": "W Main Street",
-    "city": "Tavares",
-    "state": "FL",
-    "postal_code": "32778"
-  },
-  {
-    "id": 3,
-    "name": "Cold Mountain Penitentiary",
-    "address": "Cockrill Bend Boulevard",
-    "city": "Cold Mountain",
-    "state": "LA",
-    "postal_code": "70712"
-  }
-]
+
+    [
+      {
+        id: 1,
+        name: "Shawshank State Prison",
+        address: "100 Reformatory Road",
+        city: "Mansfield",
+        state: "ME",
+        postal_code: "04401"
+      },
+      {
+        id: 2,
+        name: "Road Prison 36",
+        address: "W Main Street",
+        city: "Tavares",
+        state: "FL",
+        postal_code: "32778"
+      },
+      {
+        id: 3,
+        name: "Cold Mountain Penitentiary",
+        address: "Cockrill Bend Boulevard",
+        city: "Cold Mountain",
+        state: "LA",
+        postal_code: "70712"
+      }
+    ]
 
 # 
 ## Gets facility by id
@@ -401,14 +418,14 @@ No input needed.
 | GET   | /api/facilities/3 |
     
     Output:
-    {
-  "id": 3,
-  "name": "Cold Mountain Penitentiary",
-  "address": "Cockrill Bend Boulevard",
-  "city": "Cold Mountain",
-  "state": "LA",
-  "postal_code": "70712"
-}
+  
+    id: 3,
+    name: "Cold Mountain Penitentiary",
+    address: "Cockrill Bend Boulevard",
+    city: "Cold Mountain",
+    state: "LA",
+    postal_code: "70712"
+
 
 # 
 ## Gets all inmates by facility
@@ -423,24 +440,24 @@ No input needed.
 | GET   | /api/facilities/2/inmates |
     
     Output:
-    {
-  "name": "Road Prison 36",
-  "zip": "32778",
-  "prisoners": [
-    {
-      "name": "Lucas Jackson",
-      "experience": "Veteran",
-      "skills": "Tenacity, Good under pressure",
-      "availability": "On Site"
-    },
-    {
-      "name": "Dragline",
-      "experience": "Manual Labor",
-      "skills": "Leadership, Strength",
-      "availability": "On Site"
-    }
-  ]
-}
+  {
+    name: "Road Prison 36",
+    zip: "32778",
+    prisoners: [
+      {
+        name: "Lucas Jackson",
+        experience: "Veteran",
+        skills: "Tenacity, Good under pressure",
+        availability: "On Site"
+      },
+      {
+        name: "Dragline",
+        experience: "Manual Labor",
+        skills: "Leadership, Strength",
+        availability: "On Site"
+      }
+    ]
+  }
 
 # 
 ## Gets all inmates
@@ -456,28 +473,30 @@ No input needed.
     
     Output:
   [
-  {
-    "id": 1,
-    "name": "Andy Dufresne",
-    "work_exp": "Accounting",
-    "skills": "Math, Scheming",
-    "availability": "Day pass",
-    "facility": "Shawshank State Prison",
-    "postal_code": "04401"
+    {
+      id: 1,
+      name: "Andy Dufresne",
+      work_exp: "Accounting",
+      skills: "Math, Scheming",
+      availability: "Day pass",
+      facility: "Shawshank State Prison",
+      postal_code: "04401"
 
-  },
-  {
-    "id": 2,
-    "name": "Lucas Jackson",
-    "work_exp": "Veteran",
-    "skills": "Tenacity, Good under pressure",
-    "availability": "On Site",
-    "facility": "Road Prison 36",
-    "postal_code": "32778"
+    },
+    {
+      id: 2,
+      name: "Lucas Jackson",
+      work_exp: "Veteran",
+      skills: "Tenacity, Good under pressure",
+      availability: "On Site",
+      facility: "Road Prison 36",
+      postal_code: "32778"
 
-  },
-  ...
+    },
+    ...
 ]
+
+
  #   
 ## Gets inmate by id
 ## GET api/inmates/:id
@@ -491,13 +510,12 @@ No input needed.
 | GET   | /api/inmates/:id |
     
     Output:
-{
-  "id": 4,
-  "name": "Ellis Boyd Redding",
-  "work_exp": "Sales",
-  "skills": "Ordering, Networking",
-  "availability": "Day pass",
-  "prison_id": 1,
-  "facility": "Shawshank State Prison",
-  "postal_code": "04401"
-}
+
+    id: 4,
+    name: "Ellis Boyd Redding",
+    work_exp: "Sales",
+    skills: "Ordering, Networking",
+    availability: "Day pass",
+    prison_id: 1,
+    facility: "Shawshank State Prison",
+    postal_code: "04401"

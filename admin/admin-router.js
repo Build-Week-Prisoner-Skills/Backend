@@ -28,10 +28,15 @@ router.post('/login', (req, res) => {
     .then(admin => {
     if (admin && bcrypt.compareSync(password, admin.password)) {
         const token = signToken(admin);
-        res.status(200).json({ token });
+        res.status(200).json({
+            id: admin.id,
+            username,
+            token,
+            message  : `Registration successful, ${admin.name}.`,
+        })
     } else {
         res.status(401).json({ message: 'Invalid credentials' })
-    }
+        }
     })
     .catch(err => {
     console.error(err);
@@ -90,8 +95,10 @@ router.post('/facilities', authToken, (req, res) => {
             .then(prison => {
                 let changes = ({prison_id : prison.id})
                 Admins.edit(req.admin.userId, changes)
-                res.status(201).json(prison);
-                alert('You must log in again to continue.')
+                res.status(201).json({
+                    prison,
+                    message: 'You must log in again to continue.'
+                });
             })
             .catch(err =>
         res.status(500).json({ errorMessage: 'Could not add facility.'}))
