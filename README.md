@@ -2,7 +2,47 @@
 
 ## Prisoner Skills API Guide 
 # 
+
+# 
+## Administrator List
+## GET api/admin
+Returns a list of Administrators
+
+No input required
+# 
+
+| Method | Endpoint      |
+| - | - |
+| GET   | /api/admin/ | 
+
+    
+    Output:
+
+[
+
+  {
+    "id": 1,
+    "name": "Warden Norton",
+    "username": "snorton",
+    "prison_name": "Shawshank State Prison"
+  },
+  {
+    "id": 2,
+    "name": "the Captain",
+    "username": "smartin",
+    "prison_name": "Road Prison 36"
+  },
+  {
+    "id": 3,
+    "name": "Hal Moores",
+    "username": "hmoores",
+    "prison_name": "Cold Mountain Penitentiary"
+  }
+
+]
+
 ### Authentication Routes 
+# 
 ## Administrator Registeration
 ## POST api/admin/register
 Creates a new account for an administrator
@@ -46,7 +86,7 @@ Signs user in and returns a JSON web token
     id: 1,
     username": "snorton",
     token: "{token}",
-    message: "Registration successful, Warden Norton."
+    message: "Login successful, Warden Norton."
 
 
 # USERNAMES && PASSWORDS FOR TESTING
@@ -97,6 +137,7 @@ Must be logged in to update profile
     username: "updated username",
 	  password: "updated password"
 
+
 # 
 ## Add facility
 ## POST api/admin/facilities
@@ -104,7 +145,7 @@ Administrator can add facility infomation.
 
 Must be logged in to add profile
 # UPON CREATION ADMIN WILL RECEIVE AN UPDATED TOKEN
-# 
+# IF FACILITY IS ALREADY LINKED TO ACCOUNT ADMIN WILL NOT BE ABLE TO ADD
 | Method | Endpoint      |
 | - | - |
 | PUT   | /api/admin/facilities | 
@@ -121,16 +162,22 @@ Must be logged in to add profile
 
   {
     prison: {
-    id: 4
+
+    id: 4,
     name: "Parnall Correctional Facility"
     address: "1780 East Parnall Road",
-    city: "Jackson", (string, Required)
+    city: "Jackson",
     state: "MI",
     postal_code: "49201"
+
     },
+
     token: "{token}",
-  message: "Facility added successfully, {admin.name}."
+
+    message: "Facility added successfully, {admin.name}."
   }
+
+
       
  # 
 ## Gets all inmates at administrators facilities

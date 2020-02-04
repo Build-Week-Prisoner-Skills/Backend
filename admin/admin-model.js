@@ -22,6 +22,8 @@ async function add(admin) {
 
 function find() {
     return db('admins')
+    .select('admins.id','admins.name', 'admins.username', 'prisons.name as prison_name' )
+    .join('prisons', 'prisons.id', '=', 'admins.prison_id')
 };
 
 function findBy(prop) {
@@ -35,8 +37,9 @@ function findById(id) {
      .first();
 };
 
-function remove(id) {
-    return findById(id).del();
+async function remove(id) {
+    await findById(id).del();
+    return findById(id);
 };
 
 async function edit(id, changes) {
