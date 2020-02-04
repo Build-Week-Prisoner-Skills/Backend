@@ -120,7 +120,7 @@ router.get('/inmates', authToken, (req, res) => {
     if (req.admin.prison_id === null){
         res.status(404).json({ message: 'No facility associated with account.' })
     } else{
-        Prisoners.findBy(req.admin.prison_id)
+        Prisoners.findByPrisonId(req.admin.prison_id)
         .then(prisoners => {
             if (prisoners.length > 0) {
                 res.status(200).json(prisoners);

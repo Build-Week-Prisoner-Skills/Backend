@@ -87,7 +87,7 @@ Must be logged in to add profile
       
  # 
 ## Gets all inmates at administrators facilities
-## GET api/admin/inmates
+## GET api/admin/facilities
 Administrator can view all inmates at their facility
 
 Must be logged in
