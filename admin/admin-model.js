@@ -47,7 +47,7 @@ async function edit(id, changes) {
         return findById(id);
 };
 
-//**  PRISON MODELS  **//
+/**  PRISON MODELS  **/
 
 
 async function addPrison(prison) {
@@ -62,7 +62,7 @@ function findPrisonById(id) {
         .first();
 };
 
-//**  PRISONER MODELS  **//
+/**  PRISONER MODELS  **/
 
 async function addPrisoner(prisoner) {
     const [id] = await db('prisoners')
