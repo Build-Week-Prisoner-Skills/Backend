@@ -14,12 +14,11 @@ router.post('/register', (req, res) => {
 
     Admins.add(admin)
     .then(saved => {
-        console.log(saved)
-    res.status(201).json(saved);
+        res.status(201).json(saved);
     })
     .catch(err => {
-    console.log(err)
-    res.status(500).json({ errorMessage: 'Could not add user.' })
+        console.log(err)
+        res.status(500).json({ errorMessage: 'Could not add user.' })
     });
 });
 
@@ -60,7 +59,6 @@ router.put('/', authToken, (req, res) => {
 		.then(updated => {
             res.status(201).json(updated)
         })
-    
         .catch(err => {
             res.status(500).json({ error: 'The user informatmion could not be retrieved.' });
         });
