@@ -43,7 +43,6 @@ async function remove(id) {
 };
 
 async function edit(id, changes) {
-    console.log(id, changes)
     await findById(id).update(changes)
         return findById(id);
 };
