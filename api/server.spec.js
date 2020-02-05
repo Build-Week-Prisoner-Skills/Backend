@@ -14,14 +14,14 @@ describe('server', function() {
     describe('test environment', function() {
         it('should use the testing environment', function() {
             expect(process.env.DB_ENV).toBe('testing')
-        })
-    })
+        });
+    });
 
     beforeEach(async function() {
         await db('admins').truncate();
         await db('prisons').truncate();
         await db('prisoners').truncate();
-    })
+    });
 
     describe('GET /', function() {
         it('should return connection message', function() {
@@ -453,7 +453,8 @@ describe('server', function() {
             });
         });
     });
-  describe('DELETE /api/admin/inmates/:id', function() {
+
+    describe('DELETE /api/admin/inmates/:id', function() {
         it('should delete inmate by id', function() {
             return request(server).post('/api/admin/register')
             .send({
@@ -649,7 +650,11 @@ describe('server', function() {
                                  expect(res.status).toBe(200)
                                  expect(res.type).toMatch(/json/i)
                                  expect(res.body).toEqual(expect.objectContaining({name: "Parnall Correctional Facility"}))
-                                 expect(res.body.prisoners).toEqual(expect.arrayContaining([{"availability": "On Site", "experience": "Veteran", "name": "Lucas Jackson", "skills": "Tenacity, Good under pressure"}]))
+                                 expect(res.body.prisoners).toEqual(expect.arrayContaining([
+                                        {
+                                            "availability": "On Site", "experience": "Veteran", "name": "Lucas Jackson", "skills": "Tenacity, Good under pressure"
+                                        }
+                                    ]))
                              })
                         })
                     })
@@ -658,4 +663,4 @@ describe('server', function() {
         });
     });
 
-})
+});
