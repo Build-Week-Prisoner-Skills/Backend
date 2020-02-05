@@ -23,6 +23,12 @@ describe('server', function() {
         await db('prisoners').truncate();
     });
 
+    afterEach(async function() {
+        await db('admins').truncate();
+        await db('prisons').truncate();
+        await db('prisoners').truncate();
+    })
+
     describe('GET /', function() {
         it('should return connection message', function() {
             return request(server).get('/').then(res => {
