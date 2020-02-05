@@ -603,4 +603,59 @@ describe('server', function() {
         });
     });
 
+    describe('GET /api/facilities/:id/inmates', function() {
+        it('should return response status 200, json object with array property', function() {
+            return request(server).post('/api/admin/register')
+            .send({
+                name: 'name',
+                username: 'username',
+                password: 'password'
+            }).then(function() {
+                return request(server).post('/api/admin/login')
+                .send({
+                    username: 'username',
+                    password: 'password',
+                }).then(function() {
+                    let token = signToken({
+                        id : 1,
+                        username: 'username',
+                        prison_id: null
+                    })
+                    return request(server).post('/api/admin/facilities')
+                    .set({ authorization: token })
+                    .send({
+                        name: "Parnall Correctional Facility",
+                        address: "1780 East Parnall Road",
+                        city: "Jackson",
+                        state: "MI",
+                        postal_code: 49201
+                      })
+                    .then(function() {
+                        let token = signToken({
+                            id : 1,
+                            username: 'username',
+                            prison_id: 1
+                        })
+                        return request(server).post('/api/admin/inmates')
+                        .set({ authorization: token})
+                        .send({
+                            name: "Lucas Jackson",
+                            work_exp: "Veteran",
+                            skills: "Tenacity, Good under pressure",
+                            availability: "On Site"
+                         }).then(function() {
+                             return request(server).get('/api/facilities/1/inmates')
+                             .then(res => {
+                                 expect(res.status).toBe(200)
+                                 expect(res.type).toMatch(/json/i)
+                                 expect(res.body).toEqual(expect.objectContaining({name: "Parnall Correctional Facility"}))
+                                 expect(res.body.prisoners).toEqual(expect.arrayContaining([{"availability": "On Site", "experience": "Veteran", "name": "Lucas Jackson", "skills": "Tenacity, Good under pressure"}]))
+                             })
+                        })
+                    })
+                })
+            }); 
+        });
+    });
+
 })
