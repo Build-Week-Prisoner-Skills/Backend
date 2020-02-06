@@ -3,7 +3,6 @@ const db = require('../database/db-config');
 module.exports = {
     add,
     find,
-    findWithPrisoners,
     findBy,
     findById,
     findPrisoners,
@@ -19,13 +18,7 @@ async function add(prison) {
     return findById(id);
 };
 
-function find() {
-    return db('prisons')
-        .select('*');
-};
-
-
-async function findWithPrisoners() {
+async function find() {
     let prisons =  await db('prisons');
     return Promise.all(
         prisons.map(async prison => {
@@ -54,7 +47,7 @@ async function findPrisoners(prison_id) {
 
 async function findPrisonersByPrison(prison_id) {
     let prison = await findById(prison_id)
-    .select('name', 'postal_code as zip')    
+    .select('*')    
     return db('prisoners')
     .where('prison_id', prison_id)
     .select('name', 'work_exp as experience', 'skills', 'availability')

@@ -222,7 +222,7 @@ Must be logged in to add profile and
     name: "Cody Russell", (string, Required)
     work_exp: "Prototyping", (string, Required)
     skills: "Art, Dev", (string, Required)
-    availability: "On Site", (string, Required)
+    availability: "On Site" (string, Required)
         
     Output:
 
@@ -231,37 +231,8 @@ Must be logged in to add profile and
     work_exp: "Prototyping",
     skills: "Art, Dev",
     availability: "On Site",
-    facility: "Shawshank State Prison" || (admin.prison_id)
+    prison_id: (admin.prison_id)
       
-# 
-## Add inmate
-## POST api/admin/inmates
-Administrator can add inmate infomation. 
-
-Must be logged in to add profile and 
-
-# 
-| Method | Endpoint      |
-| - | - |
-| PUT   | /api/admin/inmates | 
-
-    Input: 
-
-    name: "Cody Russell", (string, Required)
-    work_exp: "Prototyping", (string, Required)
-    skills: "Art, Dev", (string, Required)
-    availability: "On Site", (string, Required)
-        
-    Output:
-
-    id: 7,
-    name: "Cody Russell",
-    work_exp: "Prototyping",
-    skills: "Art, Dev",
-    availability: "On Site",
-    facility: "Shawshank State Prison",
-    prison_id: 1 || (admin.prison_id)
-    
 
 # 
 ## Gets all inmates at administrators facilities
@@ -426,32 +397,73 @@ No input needed.
     
     Output:
 
-    [
+{
+    "id": 1,
+    "name": "Shawshank State Prison",
+    "address": "100 Reformatory Road",
+    "city": "Mansfield",
+    "state": "ME",
+    "postal_code": 4401,
+    "prisoners": [
       {
-        id: 1,
-        name: "Shawshank State Prison",
-        address: "100 Reformatory Road",
-        city: "Mansfield",
-        state: "ME",
-        postal_code: "04401"
+        "name": "Andy Dufresne",
+        "experience": "Accounting",
+        "skills": "Math, Planning",
+        "availability": "Day pass"
       },
       {
-        id: 2,
-        name: "Road Prison 36",
-        address: "W Main Street",
-        city: "Tavares",
-        state: "FL",
-        postal_code: "32778"
-      },
-      {
-        id: 3,
-        name: "Cold Mountain Penitentiary",
-        address: "Cockrill Bend Boulevard",
-        city: "Cold Mountain",
-        state: "LA",
-        postal_code: "70712"
+        "name": "Ellis Boyd Redding",
+        "experience": "Sales",
+        "skills": "Ordering, Networking",
+        "availability": "Day pass"
       }
     ]
+  },
+  {
+    "id": 2,
+    "name": "Road Prison 36",
+    "address": "W Main Street",
+    "city": "Tavares",
+    "state": "FL",
+    "postal_code": 32778,
+    "prisoners": [
+      {
+        "name": "Lucas Jackson",
+        "experience": "Veteran",
+        "skills": "Tenacity, Good under pressure",
+        "availability": "On Site"
+      },
+      {
+        "name": "Dragline",
+        "experience": "Manual Labor",
+        "skills": "Leadership, Strength",
+        "availability": "On Site"
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Cold Mountain Penitentiary",
+    "address": "Cockrill Bend Boulevard",
+    "city": "Cold Mountain",
+    "state": "LA",
+    "postal_code": 70712,
+    "prisoners": [
+      {
+        "name": "John Coffey",
+        "experience": "Healthcare",
+        "skills": "Healing, Compassion",
+        "availability": "Work Release"
+      },
+      {
+        "name": "Eduard Delacroix",
+        "experience": "Animal Trainer",
+        "skills": "Bilingual, Animal ",
+        "availability": "On Site"
+      }
+    ]
+  }
+]
 
 # 
 ## Gets facility by id
@@ -489,8 +501,12 @@ No input needed.
     
     Output:
   {
+    id: 2,
     name: "Road Prison 36",
-    zip: "32778",
+    address: "W Main Street",
+    city: "Tavares",
+    state: "FL",
+    postal_code: "32778,
     prisoners: [
       {
         name: "Lucas Jackson",
