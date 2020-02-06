@@ -194,7 +194,6 @@ router.put('/inmates/:id', authToken, (req, res, end) => {
             } else {
                 Admins.editPrisoner(req.params.id, req.body)
                 .then(edited => {
-                    console.log(edited)
                     res.status(200).json(edited)
                 })
                     .catch(err => {

@@ -29,7 +29,7 @@ router.get('/:id', (req, res) => {
 });
 
 router.get('/:id/inmates', (req, res) => {
-    Prisons.findPrisoners(req.params.id)
+    Prisons.findPrisonersByPrison(req.params.id)
     .then(prison => {
         if(prison.prisoners.length > 0){
             res.json(prison)
