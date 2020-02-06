@@ -3,9 +3,11 @@ const db = require('../database/db-config');
 module.exports = {
     add,
     find,
+    findWithPrisoners,
     findBy,
     findById,
     findPrisoners,
+    findPrisonersByPrison,
     remove,
     edit
 };
@@ -22,6 +24,17 @@ function find() {
         .select('*');
 };
 
+
+async function findWithPrisoners() {
+    let prisons =  await db('prisons');
+    return Promise.all(
+        prisons.map(async prison => {
+            let prisoners = await findPrisoners(prison.id);
+            return { ...prison, prisoners };
+        })
+    )
+};
+
 function findBy(prop) {
     return db('prisons')
         .where(prop);
@@ -34,6 +47,12 @@ function findById(id) {
 };
 
 async function findPrisoners(prison_id) {
+    return db('prisoners')
+    .where('prison_id', prison_id)
+    .select('name', 'work_exp as experience', 'skills', 'availability')
+};
+
+async function findPrisonersByPrison(prison_id) {
     let prison = await findById(prison_id)
     .select('name', 'postal_code as zip')    
     return db('prisoners')
