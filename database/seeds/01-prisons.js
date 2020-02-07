@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       address: '100 Reformatory Road',
       city: 'Mansfield',
       state: 'ME',
-      postal_code: parseInt(`04401`)
+      postal_code: '04401'
     },
     {
       id: 2, 
@@ -14,7 +14,7 @@ exports.seed = function(knex) {
       address: 'W Main Street',
       city: 'Tavares',
       state: 'FL',
-      postal_code: 32778
+      postal_code: '32778'
     },
     {
       id: 3, 
@@ -22,7 +22,7 @@ exports.seed = function(knex) {
       address: 'Cockrill Bend Boulevard',
       city: 'Cold Mountain',
       state: 'LA',
-      postal_code: 70712
+      postal_code: '70712'
     }
   ]);
 };
