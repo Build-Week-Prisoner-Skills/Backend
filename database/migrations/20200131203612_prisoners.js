@@ -18,7 +18,7 @@ exports.up = function(knex) {
         .string('state', 2)
         .notNullable();
         prisons
-        .integer('postal_code', 5)
+        .string('postal_code', 5)
         .notNullable()
         .index();
     })
