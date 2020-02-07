@@ -42,7 +42,7 @@ function findById(id) {
 async function findPrisoners(prison_id) {
     return db('prisoners')
     .where('prison_id', prison_id)
-    .select('name', 'work_exp as experience', 'skills', 'availability')
+    .select('id', 'name', 'work_exp as experience', 'skills', 'availability')
 };
 
 async function findPrisonersByPrison(prison_id) {

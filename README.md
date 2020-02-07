@@ -148,7 +148,7 @@ Must be logged in to add profile
 # IF FACILITY IS ALREADY LINKED TO ACCOUNT ADMIN WILL NOT BE ABLE TO ADD
 | Method | Endpoint      |
 | - | - |
-| PUT   | /api/admin/facilities | 
+| POST   | /api/admin/facilities | 
 
     Input: 
 
@@ -368,7 +368,7 @@ Must be logged in
 
 | Method | Endpoint      |
 | - | - |
-| PUT   | /api/facilities/inmates/1 |
+| DELETE  | /api/facilities/inmates/1 |
 
 
     Logged In As:
